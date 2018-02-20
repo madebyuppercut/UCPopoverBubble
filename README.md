@@ -4,6 +4,7 @@ UCPopoverBubble is a simple UI element for iOS that can display text and optiona
 
 ![](https://github.com/madebyuppercut/UCPopoverBubble/blob/master/Samples/popover1.png "Basic popover")
 ![](https://github.com/madebyuppercut/UCPopoverBubble/blob/master/Samples/popover2.png "Popover with arrow")
+![](https://github.com/madebyuppercut/UCPopoverBubble/blob/master/Samples/popover3.png "Popover with OK button")
 
 ## Installation
 Simply download this repository and copy _UCPopoverBubble.swift_ into your project.
