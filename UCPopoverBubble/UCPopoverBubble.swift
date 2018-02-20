@@ -125,6 +125,7 @@ open class UCPopoverBubble: UIViewController {
     weak private var _arrowLayer: CAShapeLayer?
     weak private var _textLabel: UILabel!
     
+    static private let ARROW_SIZE: CGSize = CGSize(width: 16.0, height: 14.0)
     static private let CONTENT_INSET: CGFloat = 12.0
     static private let MIN_EDGE_MARGIN: CGFloat = 4.0
     static private let ANIMATION_START_SCALE: CGFloat = 0.7
@@ -195,8 +196,9 @@ open class UCPopoverBubble: UIViewController {
         }
         
         if arrowDirection != .none {
-            let arrowDim = CGSize(width: 16.0, height: 16.0)
+            let arrowDim = UCPopoverBubble.ARROW_SIZE
             let arrowPath = CGMutablePath()
+            var arrowFrame: CGRect!
             
             switch arrowDirection {
             case .up, .down:
@@ -205,12 +207,14 @@ open class UCPopoverBubble: UIViewController {
                 arrowPath.move(to: CGPoint(x: 0.0, y: arrowBaseY))
                 arrowPath.addLine(to: CGPoint(x: arrowDim.width/2.0, y: arrowPointY))
                 arrowPath.addLine(to: CGPoint(x: arrowDim.width, y: arrowBaseY))
+                arrowFrame = CGRect(x: 0.0, y: 0.0, width: arrowDim.width, height: arrowDim.height)
             case .left, .right:
-                let arrowBaseX = (arrowDirection == .right ? 0.0 : arrowDim.width)
-                let arrowPointX = (arrowDirection == .right ? arrowDim.width : 0.0)
-                arrowPath.move(to: CGPoint(x: arrowBaseX, y: -arrowDim.height))
-                arrowPath.addLine(to: CGPoint(x: arrowPointX, y: -arrowDim.height/2.0))
+                let arrowBaseX = (arrowDirection == .right ? 0.0 : arrowDim.height)
+                let arrowPointX = (arrowDirection == .right ? arrowDim.height : 0.0)
+                arrowPath.move(to: CGPoint(x: arrowBaseX, y: -arrowDim.width))
+                arrowPath.addLine(to: CGPoint(x: arrowPointX, y: -arrowDim.width/2.0))
                 arrowPath.addLine(to: CGPoint(x: arrowBaseX, y: 0.0))
+                arrowFrame = CGRect(x: 0.0, y: 0.0, width: arrowDim.height, height: arrowDim.width)
             default: break
             }
             
@@ -218,7 +222,7 @@ open class UCPopoverBubble: UIViewController {
             
             let arrowLayer = CAShapeLayer()
             arrowLayer.fillColor = UCPopoverBubble.DEFAULT_COLOR.cgColor
-            arrowLayer.frame = CGRect(x: 0.0, y: 0.0, width: arrowDim.width, height: arrowDim.height)
+            arrowLayer.frame = arrowFrame
             arrowLayer.path = arrowPath
             
             view.layer.addSublayer(arrowLayer)
