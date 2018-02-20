@@ -269,20 +269,14 @@ open class UCPopoverBubble: UIViewController {
     
     open override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Do any additional setup after loading the view.
-    }
-    
-    open override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     open override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         if _arrowDirection != .none {
-            assert(_arrowLayer != nil, "Missing arrow layer when arrow direction is not 'none'.")
+            assert(_arrowLayer != nil, "[UCPopoverBubble] Missing arrow layer when arrow direction is not 'none'.")
             let arrowDim = _arrowLayer!.frame.size
             
             // NOTE(christian): Get the layout size matching the constraints instead of using the view's frame directly in case the popover is being presented
