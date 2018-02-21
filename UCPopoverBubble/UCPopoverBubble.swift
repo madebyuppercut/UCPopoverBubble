@@ -147,6 +147,10 @@ open class UCPopoverBubble: UIViewController {
     /// Initializes a popover with the given text, array of buttons (if any), and arrow direction (default is none). If more than one button
     /// is added, they are stacked vertically. If any buttons contain constraints (i.e. width & height), they are centered in the popover,
     /// otherwise the button's leading and trailing edges are matched to the popover (with an inset amount).
+    /// - Parameters:
+    ///     - text: The text to display in the popover.
+    ///     - buttons: An array of buttons to add to the popover. Pass `nil` for no buttons.
+    ///     - arrowDirection: The direction of the popover's arrow. Default is `none`.
     init(withText text: String, buttons: [UIButton]?, arrowDirection: UCPopoverArrowDirection = .none) {
         _arrowDirection = arrowDirection
         super.init(nibName: nil, bundle: nil)
@@ -231,12 +235,19 @@ open class UCPopoverBubble: UIViewController {
     }
     
     /// Initializes a basic popover bubble with the given text and arrow direction (default is none).
+    /// - Parameters:
+    ///     - text: The text to display in the popover.
+    ///     - arrowDirection: The direction of the arrow. Default is `none`.
     convenience init(withText text: String, arrowDirection: UCPopoverArrowDirection = .none) {
         self.init(withText: text, buttons: nil, arrowDirection: arrowDirection)
     }
     
     /// Initializes a popover bubble with the given text, arrow direction, and default buttons with the given titles.
     /// If more than one button is added, they are stacked vertically.
+    /// - Parameters:
+    ///     - text: The text to display in the popover.
+    ///     - buttonTitles: An array of button titles for adding default buttons to the popover.
+    ///     - arrowDirection: The direction of the arrow. Default is `none`.
     convenience init(withText text: String, buttonTitles: [String], arrowDirection: UCPopoverArrowDirection = .none) {
         var buttons: [UIButton] = []
         for title in buttonTitles {
@@ -250,6 +261,9 @@ open class UCPopoverBubble: UIViewController {
     /// Initializes a popover bubble with the given text and custom buttons. If any of the buttons contains constraints (i.e. width & height),
     /// it is centered horizontally in the popover. Otherwise, the button's leading and trailing edges are matched to the popover (with an inset amount).
     /// If more than one button is added, they are stacked vertically.
+    /// - Parameters:
+    ///     - text: The text to display in the popover.
+    ///     - buttons: An array of buttons to add to the popover.
     convenience init(withText text: String, buttons: [UIButton]) {
         self.init(withText: text, buttons: buttons, arrowDirection: .none)
     }
@@ -358,6 +372,8 @@ open class UCPopoverBubble: UIViewController {
     //# MARK: Public interface
     
     /// Presents the popover bubble at the center of the currently visible view controller with optional animation.
+    /// - Parameters:
+    ///     - animated: `true` to animate the presentation.
     open func present(animated: Bool) {
         if let visibleVC = UCGetVisibleViewController() {
             present(inViewController: visibleVC, animated: animated)
@@ -365,6 +381,9 @@ open class UCPopoverBubble: UIViewController {
     }
     
     /// Presents the popover bubble at the center of the given view controller with optional animation.
+    /// - Parameters:
+    ///     - viewController: The view controller to present the popover in.
+    ///     - animated: `true` to animate the presentation.
     open func present(inViewController viewController: UIViewController, animated: Bool) {
         let parentView = viewController.view!
         let at = parentView.center
@@ -374,6 +393,10 @@ open class UCPopoverBubble: UIViewController {
     
     /// Presents the popover bubble at the given coordinate point with optional animation. The point should be in the coordinate
     /// space of the popover's superview (i.e. the view of view controller it is being presented in).
+    /// - Parameters:
+    ///     - at: The point in the coordinate space of the popover's superview to display it in. If the popover has an arrow,
+    ///     the tip of the arrow is positioned at this location, otherwise the popover is centered at this point.
+    ///     - animated: `true` to animate the presentation.
     open func present(at: CGPoint, animated: Bool) {
         if let visibleVC = UCGetVisibleViewController() {
             present(inViewController: visibleVC, at: at, animated: animated)
@@ -382,6 +405,11 @@ open class UCPopoverBubble: UIViewController {
     
     /// Presents the popover bubble in the given view controller at the given point with optional animation. The point should be in
     /// the coordinate space of viewController's view.
+    /// - Parameters:
+    ///     - viewController: The view controller to present the popover in.
+    ///     - at: The point in the coordinate space of the popover's superview to display it in. If the popover has an arrow,
+    ///     the tip of the arrow is positioned at this location, otherwise the popover is centered at this point.
+    ///     - animated: `true` to animate the presentation.
     open func present(inViewController viewController: UIViewController, at: CGPoint, animated: Bool) {
         viewController.addChildViewController(self)
         let parentView = viewController.view!
@@ -395,7 +423,8 @@ open class UCPopoverBubble: UIViewController {
         _centerXConstraint.isActive = true
         _centerYConstraint.isActive = true
         
-        var minEdgeMargins = UIEdgeInsets(top: UCPopoverBubble.MIN_EDGE_MARGIN, left: UCPopoverBubble.MIN_EDGE_MARGIN, bottom: UCPopoverBubble.MIN_EDGE_MARGIN, right: UCPopoverBubble.MIN_EDGE_MARGIN)
+        let minEdgeMargin = UCPopoverBubble.MIN_EDGE_MARGIN
+        var minEdgeMargins = UIEdgeInsets(top: minEdgeMargin, left: minEdgeMargin, bottom: minEdgeMargin, right: minEdgeMargin)
         switch _arrowDirection {
         case .left:
             if at.x > minEdgeMargins.left {
@@ -454,6 +483,9 @@ open class UCPopoverBubble: UIViewController {
     }
     
     /// Dismisses the popover bubble with optional animation, executing the completion block after it's dismissed.
+    /// - Parameters:
+    ///     - animated: `true` to animate the popover's dismissal.
+    ///     - completion: Optional completion block.
     open override func dismiss(animated: Bool, completion: (() -> Void)? = nil) {
         self.willMove(toParentViewController: nil)
         
