@@ -67,7 +67,7 @@ open class UCPopoverBubble: UIViewController {
     }
     
     /// Text color for the popover bubble's text.
-    var textColor: UIColor {
+    var textColor: UIColor? {
         set {
             _textLabel.textColor = newValue
         }
