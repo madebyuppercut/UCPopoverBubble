@@ -21,7 +21,9 @@ Simply download this repository and copy _UCPopoverBubble.swift_ into your proje
 For a basic popover with just text and no arrow:
 ```
 let popover = UCPopoverBubble(withText: "Basic popover. Here is some text!")
-popover.present(animated: true)
+popover.present(animated: true, completion: {
+    print("Popover presented.")
+})
 ```
 
 If `present:` is called with no view controller, it attempts to present the popover in the currently visible view controller. To present a popover in a specific view controller, call `present(inViewController:animated:)` or `present(inViewController:at:animated:)`.
