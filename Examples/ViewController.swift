@@ -116,7 +116,7 @@ class ViewController: UIViewController {
         
         lastButton = button
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -128,7 +128,9 @@ class ViewController: UIViewController {
         
         if button.tag == 0 {
             popover = UCPopoverBubble(withText: "Basic popover. Here is some text!")
-            popover.present(animated: true)
+            popover.present(animated: true, completion: {
+                print("Popover presented.")
+            })
         } else if button.tag == 1 {
             popover = UCPopoverBubble(withText: "Look here!", arrowDirection: .down)
             popover.present(at: CGPoint(x: 40.0, y: view.frame.height - 60.0), animated: true)

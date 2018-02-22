@@ -374,9 +374,10 @@ open class UCPopoverBubble: UIViewController {
     /// Presents the popover bubble at the center of the currently visible view controller with optional animation.
     /// - Parameters:
     ///     - animated: `true` to animate the presentation.
-    open func present(animated: Bool) {
+    ///     - completion: Block to execute after the popover is finished presenting.
+    open func present(animated: Bool, completion: (() -> Void)? = nil) {
         if let visibleVC = UCGetVisibleViewController() {
-            present(inViewController: visibleVC, animated: animated)
+            present(inViewController: visibleVC, animated: animated, completion: completion)
         }
     }
     
@@ -384,11 +385,12 @@ open class UCPopoverBubble: UIViewController {
     /// - Parameters:
     ///     - viewController: The view controller to present the popover in.
     ///     - animated: `true` to animate the presentation.
-    open func present(inViewController viewController: UIViewController, animated: Bool) {
+    ///     - completion: Block to execute after the popover is finished presenting.
+    open func present(inViewController viewController: UIViewController, animated: Bool, completion: (() -> Void)? = nil) {
         let parentView = viewController.view!
         let at = parentView.center
         
-        present(inViewController: viewController, at: at, animated: animated)
+        present(inViewController: viewController, at: at, animated: animated, completion: completion)
     }
     
     /// Presents the popover bubble at the given coordinate point with optional animation. The point should be in the coordinate
@@ -397,9 +399,10 @@ open class UCPopoverBubble: UIViewController {
     ///     - at: The point in the coordinate space of the popover's superview to display it in. If the popover has an arrow,
     ///     the tip of the arrow is positioned at this location, otherwise the popover is centered at this point.
     ///     - animated: `true` to animate the presentation.
-    open func present(at: CGPoint, animated: Bool) {
+    ///     - completion: Block to execute after the popover is finished presenting.
+    open func present(at: CGPoint, animated: Bool, completion: (() -> Void)? = nil) {
         if let visibleVC = UCGetVisibleViewController() {
-            present(inViewController: visibleVC, at: at, animated: animated)
+            present(inViewController: visibleVC, at: at, animated: animated, completion: completion)
         }
     }
     
@@ -410,7 +413,8 @@ open class UCPopoverBubble: UIViewController {
     ///     - at: The point in the coordinate space of the popover's superview to display it in. If the popover has an arrow,
     ///     the tip of the arrow is positioned at this location, otherwise the popover is centered at this point.
     ///     - animated: `true` to animate the presentation.
-    open func present(inViewController viewController: UIViewController, at: CGPoint, animated: Bool) {
+    ///     - completion: Block to execute after the popover is finished presenting.
+    open func present(inViewController viewController: UIViewController, at: CGPoint, animated: Bool, completion: (() -> Void)? = nil) {
         viewController.addChildViewController(self)
         let parentView = viewController.view!
         
@@ -476,9 +480,11 @@ open class UCPopoverBubble: UIViewController {
                 self.view.uc_alpha = 1.0
             }, completion: {
                 self.didMove(toParentViewController: viewController)
+                completion?()
             })
         } else {
             didMove(toParentViewController: viewController)
+            completion?()
         }
     }
     
